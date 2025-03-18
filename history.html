@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../static/css/style-scrape.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>ChatGPT Scraper - History</title>
+    <style>
+
+        body {
+            background-image: url("../static/images/bg-history.png");
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">ChatGPT Scraper</h1>
+        {% if session.user_id %}
+        <div class="button-div">
+            <a href="{{ url_for('logout') }}" class="button-header">Logout</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="content-scrape-result">
+        <div class="">
+            <div class="header-scrape-result">
+                <h2 class="judul">History</h2>
+            </div>
+            
+            <div class="button-scrape-result">
+                <a href="/input" class="button-header">Input Link Baru</a>
+            </div>
+    
+    
+            <!-- {% if history_data %} -->
+                <div class="table-container">
+                    <table class="styled-table table-history">
+                        <thead>
+                            <tr>
+                                <th class="table-header">No</th>
+                                <th class="table-header">Link</th>
+                                <th class="table-header">Tanggal & Waktu</th>
+                                <th class="table-header">Jumlah Percakapan</th>
+                                <th class="table-header">Scrape</th>
+                                <th class="table-header">Preprocess</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- {% for item in history_data %} -->
+                            <tr class="table-row">
+                                <td class="table-cell">{{ loop.index }}</td>
+                                <td class="table-cell">
+                                    <a href="{{ item.link.link }}" target="_blank" class="">{{ item.link.link }}</a>
+                                </td>
+                                <td class="table-cell">{{ item.link.timestamp.strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                                <td class="table-cell">{{ item.conversations|length }}</td>
+                                <td class="table-cell">
+                                    <a href="{{ url_for('scrape_result', link_id=item.link.id) }}" class="">Detail Scraping</a>
+                                </td>
+                                <td class="table-cell">
+                                    <a href="{{ url_for('preprocessing', link_id=item.link.id) }}" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Preprocessing</a>
+                                </td>
+                            </tr>
+                            <!-- {% endfor %} -->
+                        </tbody>
+                    </table>
+                </div>
+            <!-- {% else %} -->
+                <div class="no-result">
+                    Tidak ada percakapan yang ditemukan. Mungkin link tidak valid atau format percakapan tidak didukung.
+                </div>
+            <!-- {% endif %} -->
+        </div>
+    </div>
+</body>
+</html>

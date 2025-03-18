@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/logo.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../static/css/style-scrape.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>ChatGPT Scraper - Hasil Scraping</title>
+    <style>
+
+        body {
+            background-image: url("../static/images/bg-scrape-result.png");
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">ChatGPT Scraper</h1>
+        {% if session.user_id %}
+        <div class="button-div">
+            <a href="/history" class="button-header">Lihat History</a>
+            <a href="{{ url_for('logout') }}" class="button-header">Logout</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="content-scrape-result">
+        <div class="">
+            <div class="header-scrape-result">
+                <h2 class="judul">Hasil Scraping</h2>
+                <p><strong>Link:</strong> <a href="{{ link.link }}" target="_blank">{{ link.link }}</a></p>
+                <p><strong>Waktu Scraping:</strong> {{ link.timestamp.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+            </div>
+            
+            <div class="button-scrape-result">
+                <a href="{{ url_for('preprocessing', link_id=link.id) }}" class="button-header">Hasil Preprocessing</a>
+                <a href="/input" class="button-header">Input Link Baru</a>
+            </div>
+    
+    
+            {% if conversations %}
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th class="table-header">No</th>
+                                <th class="table-header">Prompt</th>
+                                <th class="table-header">Response</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for conv in conversations %}
+                            <tr class="table-row">
+                                <td class="table-cell">{{ loop.index }}</td>
+                                <td class="table-cell">{{ conv.prompt }}</td>
+                                <td class="table-cell">{{ conv.response }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="no-result">
+                    Tidak ada percakapan yang ditemukan. Mungkin link tidak valid atau format percakapan tidak didukung.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
